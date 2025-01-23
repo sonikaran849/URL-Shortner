@@ -1,16 +1,20 @@
 const express = require("express");
 const app = express();
 const PORT = 8001;
-const urlRoute = require("./routes/url");
+
 const url = "mongodb://127.0.0.1:27017/url-shortner";
 const {connectDB } = require("./connect");
 const URL = require("./models/url");
+const path = require("path");
 
 app.use(express.json());
 
+app.set("view engine","ejs");
+app.set("view", path.resolve("./views"))
 
 connectDB(url);
 
+const urlRoute = require("./routes/url");
 app.use("/url", urlRoute);
 
 app.get("/:shortId", async (req,res)=>{
